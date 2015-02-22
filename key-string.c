@@ -251,7 +251,7 @@ key_string_lookup_key(int key)
 		tmp[0] = key;
 		tmp[1] = '\0';
 	} else if (key >= 128)
-		xsnprintf(tmp, sizeof tmp, "\\%o", key);
+		xsnprintf(tmp, sizeof tmp, "\\%o", (u_int)key);
 
 	strlcat(out, tmp, sizeof out);
 	return (out);

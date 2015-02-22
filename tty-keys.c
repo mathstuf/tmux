@@ -326,10 +326,10 @@ tty_keys_add(struct tty *tty, const char *s, int key)
 
 	keystr = key_string_lookup_key(key);
 	if ((tk = tty_keys_find(tty, s, strlen(s), &size)) == NULL) {
-		log_debug("new key %s: 0x%x (%s)", s, key, keystr);
+		log_debug("new key %s: 0x%x (%s)", s, (u_int)key, keystr);
 		tty_keys_add1(&tty->key_tree, s, key);
 	} else {
-		log_debug("replacing key %s: 0x%x (%s)", s, key, keystr);
+		log_debug("replacing key %s: 0x%x (%s)", s, (u_int)key, keystr);
 		tk->key = key;
 	}
 }
@@ -590,7 +590,7 @@ partial_key:
 	return (0);
 
 complete_key:
-	log_debug("complete key %.*s %#x", (int) size, buf, key);
+	log_debug("complete key %.*s %#x", (int) size, buf, (u_int)key);
 
 	/* Remove data from buffer. */
 	evbuffer_drain(tty->event->input, size);
@@ -616,7 +616,7 @@ complete_key:
 	return (1);
 
 discard_key:
-	log_debug("discard key %.*s %#x", (int) size, buf, key);
+	log_debug("discard key %.*s %#x", (int) size, buf, (u_int)key);
 
 	/* Remove data from buffer. */
 	evbuffer_drain(tty->event->input, size);

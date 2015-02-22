@@ -194,11 +194,11 @@ input_key(struct window_pane *wp, int key, struct mouse_event *m)
 			break;
 	}
 	if (i == nitems(input_keys)) {
-		log_debug("key 0x%x missing", key);
+		log_debug("key 0x%x missing", (u_int)key);
 		return;
 	}
 	dlen = strlen(ike->data);
-	log_debug("found key 0x%x: \"%s\"", key, ike->data);
+	log_debug("found key 0x%x: \"%s\"", (u_int)key, ike->data);
 
 	/* Prefix a \033 for escape. */
 	if (key & KEYC_ESCAPE)

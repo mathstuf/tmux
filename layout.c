@@ -86,7 +86,7 @@ layout_print_cell(struct layout_cell *lc, const char *hdr, u_int n)
 	struct layout_cell	*lcchild;
 
 	log_debug(
-	    "%s:%*s%p type %u [parent %p] wp=%p [%u,%u %ux%u]", hdr, n, " ", lc,
+	    "%s:%*s%p type %u [parent %p] wp=%p [%u,%u %ux%u]", hdr, (int)n, " ", lc,
 	    lc->type, lc->parent, lc->wp, lc->xoff, lc->yoff, lc->sx, lc->sy);
 	switch (lc->type) {
 	case LAYOUT_LEFTRIGHT:
