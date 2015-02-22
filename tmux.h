@@ -19,7 +19,7 @@
 #ifndef TMUX_H
 #define TMUX_H
 
-#define PROTOCOL_VERSION 8
+#define PROTOCOL_VERSION 8u
 
 #include <sys/time.h>
 #include <sys/uio.h>
