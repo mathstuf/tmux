@@ -1862,7 +1862,7 @@ input_exit_osc(struct input_ctx *ictx)
 			screen_set_cursor_colour(ictx->ctx.s, "");
 		break;
 	default:
-		log_debug("%s: unknown '%u'", __func__, option);
+		log_debug("%s: unknown '%d'", __func__, option);
 		break;
 	}
 }
