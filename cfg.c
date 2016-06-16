@@ -146,7 +146,7 @@ cfg_default_done(__unused struct cmd_q *cmdq)
 		 * MSG_COMMAND has arrived), else the client will exit before
 		 * the MSG_COMMAND which might tell it not to.
 		 */
-		if (!TAILQ_EMPTY(&cfg_client->cmdq->queue))
+		if (cfg_client->cmdq && !TAILQ_EMPTY(&cfg_client->cmdq->queue))
 			cmdq_continue(cfg_client->cmdq);
 		server_client_unref(cfg_client);
 		cfg_client = NULL;
