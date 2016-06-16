@@ -132,14 +132,14 @@ server_create_socket(void)
 
 /* Fork new server. */
 int
-server_start(struct event_base *base, int lockfd, char *lockfile)
+server_start(struct event_base *base, int lockfd, char *lockfile, int forkflag)
 {
 	int	pair[2];
 
 	if (socketpair(AF_UNIX, SOCK_STREAM, PF_UNSPEC, pair) != 0)
 		fatal("socketpair failed");
 
-	server_proc = proc_start("server", base, 1, server_signal);
+	server_proc = proc_start("server", base, forkflag, server_signal);
 	if (server_proc == NULL) {
 		close(pair[1]);
 		return (pair[0]);

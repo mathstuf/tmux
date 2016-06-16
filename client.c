@@ -154,7 +154,7 @@ retry:
 			close(lockfd);
 			return (-1);
 		}
-		fd = server_start(base, lockfd, lockfile);
+		fd = server_start(base, lockfd, lockfile, 1);
 	}
 
 	if (locked && lockfd >= 0) {

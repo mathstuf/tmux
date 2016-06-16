@@ -1898,7 +1898,7 @@ void	 server_clear_marked(void);
 int	 server_is_marked(struct session *, struct winlink *,
 	     struct window_pane *);
 int	 server_check_marked(void);
-int	 server_start(struct event_base *, int, char *);
+int	 server_start(struct event_base *, int, char *, int);
 void	 server_update_socket(void);
 void	 server_add_accept(int);
 
