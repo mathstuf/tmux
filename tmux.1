@@ -23,7 +23,7 @@
 .Sh SYNOPSIS
 .Nm tmux
 .Bk -words
-.Op Fl 2CluvV
+.Op Fl 2CDEluvV
 .Op Fl c Ar shell-command
 .Op Fl f Ar file
 .Op Fl L Ar socket-name
@@ -119,6 +119,10 @@ This option is for compatibility with
 when
 .Nm
 is used as a login shell.
+.It Fl D
+Start a persistent server.
+.It Fl E
+Request that the server shut down.
 .It Fl f Ar file
 Specify an alternative configuration file.
 By default,

@@ -19,7 +19,7 @@
 #ifndef TMUX_H
 #define TMUX_H
 
-#define PROTOCOL_VERSION 8
+#define PROTOCOL_VERSION 9
 
 #include <sys/time.h>
 #include <sys/uio.h>
@@ -421,6 +421,7 @@ enum msgtype {
 	MSG_SUSPEND,
 	MSG_UNLOCK,
 	MSG_WAKEUP,
+	MSG_DAEMONEXIT,
 };
 
 /*
@@ -1275,6 +1276,8 @@ struct client {
 #define CLIENT_256COLOURS 0x20000
 #define CLIENT_IDENTIFIED 0x40000
 #define CLIENT_STATUSFORCE 0x80000
+#define CLIENT_DAEMON 0x100000
+#define CLIENT_DAEMONEXIT 0x200000
 	int		 flags;
 	struct key_table *keytable;
 
@@ -1864,6 +1867,9 @@ void	cmd_wait_for_flush(void);
 /* client.c */
 int	client_main(struct event_base *, int, char **, int, const char *);
 
+/* daemon.c */
+int	daemon_main(struct event_base *);
+
 /* key-bindings.c */
 RB_PROTOTYPE(key_bindings, key_binding, entry, key_bindings_cmp);
 RB_PROTOTYPE(key_tables, key_table, entry, key_table_cmp);
@@ -1891,6 +1897,7 @@ void	alerts_check_session(struct session *);
 /* server.c */
 extern struct tmuxproc *server_proc;
 extern struct clients clients;
+int server_request_exit;
 extern struct cmd_find_state marked_pane;
 void	 server_set_marked(struct session *, struct winlink *,
 	     struct window_pane *);

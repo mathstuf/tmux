@@ -205,7 +205,7 @@ main(int argc, char **argv)
 		flags = 0;
 
 	label = path = NULL;
-	while ((opt = getopt(argc, argv, "2c:Cdf:lL:qS:uUVv")) != -1) {
+	while ((opt = getopt(argc, argv, "2c:CdDEf:lL:qS:uUVv")) != -1) {
 		switch (opt) {
 		case '2':
 			flags |= CLIENT_256COLOURS;
@@ -219,6 +219,12 @@ main(int argc, char **argv)
 				flags |= CLIENT_CONTROLCONTROL;
 			else
 				flags |= CLIENT_CONTROL;
+			break;
+		case 'D':
+			flags |= CLIENT_DAEMON;
+			break;
+		case 'E':
+			flags |= CLIENT_DAEMONEXIT;
 			break;
 		case 'V':
 			printf("%s %s\n", getprogname(), VERSION);
@@ -332,6 +338,11 @@ main(int argc, char **argv)
 	socket_path = path;
 	free(label);
 
-	/* Pass control to the client. */
-	exit(client_main(osdep_event_init(), argc, argv, flags, shellcmd));
+	if (flags & CLIENT_DAEMON) {
+		/* Start a server. */
+		exit(daemon_main(osdep_event_init()));
+	} else {
+		/* Pass control to the client. */
+		exit(client_main(osdep_event_init(), argc, argv, flags, shellcmd));
+	}
 }

@@ -139,6 +139,7 @@ dist_tmux_SOURCES = \
 	colour.c \
 	control.c \
 	control-notify.c \
+	daemon.c \
 	environ.c \
 	format.c \
 	grid-view.c \

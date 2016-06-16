@@ -328,6 +328,13 @@ client_main(struct event_base *base, int argc, char **argv, int flags,
 		tcsetattr(STDIN_FILENO, TCSANOW, &tio);
 	}
 
+	if (client_flags & CLIENT_DAEMONEXIT) {
+		log_debug("client is asking daemon to exit\n");
+		client_exitval = proc_send(client_peer, MSG_DAEMONEXIT, -1, NULL, 0);
+		proc_exit(client_proc);
+		goto main_loop;
+	}
+
 	/* Send identify messages. */
 	client_send_identify(ttynam, cwd);
 
@@ -358,6 +365,7 @@ client_main(struct event_base *base, int argc, char **argv, int flags,
 	} else if (msg == MSG_SHELL)
 		proc_send(client_peer, msg, -1, NULL, 0);
 
+main_loop:
 	/* Start main loop. */
 	proc_loop(client_proc, NULL);
 

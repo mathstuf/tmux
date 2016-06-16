@@ -1109,6 +1109,12 @@ server_client_dispatch(struct imsg *imsg, void *arg)
 
 		server_client_dispatch_shell(c);
 		break;
+	case MSG_DAEMONEXIT:
+		if (datalen != 0)
+			fatalx("bad MSG_DAEMON size");
+
+		server_request_exit = 1;
+		break;
 	}
 }
 

@@ -43,8 +43,10 @@
 struct clients		 clients;
 
 struct tmuxproc		*server_proc;
+int			 server_daemon_mode;
 int			 server_fd;
 int			 server_exit;
+int			 server_request_exit;
 struct event		 server_ev_accept;
 
 struct cmd_find_state	 marked_pane;
@@ -146,6 +148,9 @@ server_start(struct event_base *base, int lockfd, char *lockfile, int forkflag)
 	}
 	close(pair[0]);
 
+	if (!forkflag)
+		server_daemon_mode = 1;
+
 	if (log_get_level() > 3)
 		tty_create_log();
 
@@ -196,6 +201,12 @@ server_loop(void)
 
 	server_client_loop();
 
+	if (server_request_exit) {
+		server_exit = 1;
+		server_send_exit();
+		return (1);
+	}
+
 	if (!options_get_number(global_options, "exit-unattached")) {
 		if (!RB_EMPTY(&sessions))
 			return (0);
@@ -211,7 +222,7 @@ server_loop(void)
 	 * clients but don't actually exit until they've gone.
 	 */
 	cmd_wait_for_flush();
-	if (!TAILQ_EMPTY(&clients))
+	if (server_daemon_mode || !TAILQ_EMPTY(&clients))
 		return (0);
 
 	return (1);
